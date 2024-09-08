@@ -1,0 +1,138 @@
+
+proxy-providers:
+  🛫 我的机场 1:
+    type: http
+    url: "https://gawrgura.moe/api/v1/client/subscribe?token=598d0103116ee78aacccdb914df7373b"
+    path: ./proxies/airport1.yaml
+    interval: 86400
+    filter: "(?i)港|hk|hongkong|hong kong|台|tw|taiwan|日本|jp|japan|新|sg|singapore|美|us|unitedstates|united states"
+    exclude-filter: "高倍|×10"
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 600
+    override:
+      additional-prefix: "🛫 我的机场 1-"
+      additional-suffix: "-🛫 我的机场 1"
+  🛫 我的机场 2:
+    type: http
+    url: "https://gawrgura.moe/api/v1/client/subscribe?token=598d0103116ee78aacccdb914df7373b"
+    path: ./proxies/airport2.yaml
+    interval: 86400
+    filter: "(?i)港|hk|hongkong|hong kong|台|tw|taiwan|日本|jp|japan|新|sg|singapore|美|us|unitedstates|united states"
+    exclude-filter: "高倍|×10"
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 600
+    override:
+      additional-prefix: "🛫 我的机场 2-"
+      additional-suffix: "-🛫 我的机场 2"
+
+proxies:
+  - name: 🆓 免费节点
+    type: vless
+    server: example.com
+    port: 443
+    uuid: {uuid}
+    network: ws
+    tls: true
+    udp: false
+    sni: example.com
+    client-fingerprint: chrome
+    ws-opts:
+      path: "/?ed=2048"
+      headers:
+        host: example.com
+
+proxy-groups:
+  - {name: 🚀 节点选择, type: select, proxies: [🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点, 🆓 免费节点]}
+  - {name: 🐟 漏网之鱼, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
+  - {name: 📈 网络测试, type: select, proxies: [🎯 全球直连, 🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点, 🆓 免费节点]}
+  - {name: 🤖 人工智能, type: select, proxies: [🇭🇰 香港节点, 🇹🇼 台湾节点, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇸🇬 新加坡节点, 🇺🇸 美国节点]}
+  - {name: 🎮 游戏服务, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🪟 微软服务, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🇬 谷歌服务, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🍎 苹果服务, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🇨🇳 直连域名, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🇨🇳 直连 IP, type: select, proxies: [🎯 全球直连, 🚀 节点选择]}
+  - {name: 🪜 代理域名, type: select, proxies: [🚀 节点选择, 🎯 全球直连]}
+  - {name: 📲 电报消息, type: select, proxies: [🚀 节点选择]}
+  - {name: 🔒 私有网络, type: select, proxies: [🎯 全球直连]}
+  - {name: 🛑 广告拦截, type: select, proxies: [REJECT]}
+  - {name: 🎯 全球直连, type: select, proxies: [DIRECT]}
+
+rule-providers:
+  ads:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/ads.mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/ads.mrs"
+    interval: 86400
+  applications:
+    type: http
+    behavior: classical
+    format: text
+    path: ./rules/applications.list
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/applications.list"
+    interval: 86400
+  private:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/private.mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/private.mrs"
+    interval: 86400
+  microsoft-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/microsoft-cn.mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/microsoft-cn.mrs"
+    interval: 86400
+  apple-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/apple-cn.mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/apple-cn.mrs"
+    interval: 86400
+  google-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/google-cn.mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/google-cn.mrs"
+    interval: 86400
+  games-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/games-cn.mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/games-cn.mrs"
+    interval: 86400
+  ai:
+    type: http
+    behavior: domain
+    format: mrs
+    path: ./rules/ai.mrs
+    url: "https://github.com/DustinWin/ruleset_geodata/releases/download/clash-ruleset/ai.mrs"
+    interval: 86400
+
+rules:
+  - RULE-SET,ads,🛑 广告拦截
+  - RULE-SET,applications,🖥️ 直连软件
+  - DST-PORT,6881-6889,🎯 全球直连
+  - RULE-SET,private,🔒 私有网络
+  - RULE-SET,microsoft-cn,🪟 微软服务
+  - RULE-SET,apple-cn,🍎 苹果服务
+  - RULE-SET,google-cn,🇬 谷歌服务
+  - RULE-SET,games-cn,🎮 游戏服务
+  - RULE-SET,ai,🤖 人工智能
+  - RULE-SET,proxy,🪜 代理域名
+  - RULE-SET,cn,🇨🇳 直连域名
+  - RULE-SET,telegramip,📲 电报消息,no-resolve
+  - RULE-SET,privateip,🔒 私有网络,no-resolve
+  - RULE-SET,cnip,🇨🇳 直连 IP
+  - MATCH,🐟 漏网之鱼
